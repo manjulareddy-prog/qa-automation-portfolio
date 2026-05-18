@@ -1,8 +1,6 @@
 # QA Automation Portfolio — Manjula Reddy
 
-TypeScript + Playwright framework for **Sample Portal** (sanitized e-commerce stand-in).  
-Built using the same layout and habits as a multi-contributor externship repo: page objects, locator maps, role-based logins, and `.spec.ts` suites.
-
+Sanitized version of my project work using TypeScript + Playwright framework 
 ---
 
 ## Repository layout

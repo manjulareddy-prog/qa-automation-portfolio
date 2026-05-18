@@ -7,7 +7,7 @@ function requireEnv(name: string): string {
 }
 
 export function getBaseUrl(): string {
-  return process.env.BASE_URL ?? 'https://www.saucedemo.com';
+  return requireEnv('BASE_URL');
 }
 
 export function getStandardUser(): string {
@@ -20,6 +20,14 @@ export function getStandardPassword(): string {
 
 export function getLockedOutUser(): string {
   return process.env.LOCKED_OUT_USER ?? 'locked_out_user';
+}
+
+export function getProblemUser(): string {
+  return process.env.PROBLEM_USER ?? 'problem_user';
+}
+
+export function getPerformanceUser(): string {
+  return process.env.PERFORMANCE_USER ?? 'performance_glitch_user';
 }
 
 export function getApiBaseUrl(): string {

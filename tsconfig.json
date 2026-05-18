@@ -10,5 +10,5 @@
     "types": ["node"],
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "playwright.config.ts"]
+  "include": ["src/**/*.ts", "tests/**/*.ts", "playwright.config.ts", "global-setup.ts"]
 }

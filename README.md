@@ -1,82 +1,107 @@
-# QA Automation Portfolio
+# QA Automation Portfolio — Manjula Reddy
 
-**Manjula Reddy** · Mid–Senior QA Automation Engineer  
-**Stack:** TypeScript · Playwright · Page Object Model · API testing · GitHub Actions
-
----
-
-## Profile summary
-
-- **Software development background** with recent, hands-on QA automation experience from a **live externship** on a production-style web platform (confidential employer app — not included here).
-- **TypeScript + Playwright** UI automation using **Page Object Model**, custom fixtures, and `.spec.ts` suites (no Cucumber layer in this repo).
-- **AI-assisted testing workflow:** using AI tools to accelerate test ideation, locator exploration, and refactors while keeping **human ownership** of assertions, risk coverage, and review.
-- **API coverage** via Playwright’s built-in `request` fixture (contract-style checks on a public sandbox API).
-- Returning to industry after a career gap — focused on **modern automation practices**, CI-friendly design, and clear reporting.
-
-> This repository is a **sanitized portfolio**: patterns mirror real externship work; tests run against **public demo applications** only. No confidential URLs, credentials, or product names are committed.
+TypeScript + Playwright framework for **Sample Portal** (sanitized e-commerce stand-in).  
+Built using the same layout and habits as a multi-contributor externship repo: page objects, locator maps, role-based logins, and `.spec.ts` suites.
 
 ---
 
-## What’s inside
+## Repository layout
 
-| Area | Location | Highlights |
-|------|----------|------------|
-| **UI — Login** | `tests/ui/login.spec.ts` | Valid login, locked user, negative path |
-| **UI — Inventory** | `tests/ui/inventory.spec.ts` | Cart badge, fixture-based authenticated setup |
-| **UI — Checkout** | `tests/ui/checkout.spec.ts` | Multi-step E2E purchase flow |
-| **API** | `tests/api/jsonplaceholder.spec.ts` | GET contract, list checks, POST create |
-| **Page objects** | `src/pages/` | `BasePage`, `LoginPage`, `InventoryPage`, `CartPage`, `CheckoutPage` |
-| **Fixtures** | `src/fixtures/authenticated.ts` | Reusable logged-in state |
-| **CI** | `.github/workflows/playwright.yml` | Chromium run on push/PR |
+```
+src/
+  locators/          # selectors kept out of specs (review-friendly)
+  pages/             # POM — actions + assertions helpers
+    common/
+    catalog/
+    checkout/
+  test-data/         # static inputs (users, sort labels)
+  utils/             # env readers
+tests/
+  ui/
+    auth/
+    catalog/
+    checkout/
+    session/
+  api/
+global-setup.ts      # saves shopper storage state once per run
+```
 
 ---
 
-## Quick start
+## What reviewers can see quickly
+
+| Topic | Where to look |
+|-------|----------------|
+| **POM** | `src/pages/**` — `LoginPage.loginAsUserType()`, `CatalogPage.applySortFilter()` |
+| **Locators** | `src/locators/**` — data-test selectors, not scattered in tests |
+| **Assertions** | Specs use `expect` + page methods like `productNamesAreSorted()`, `expectOrderComplete()` |
+| **TypeScript** | Typed catalog slugs, user personas, shared test data modules |
+| **Playwright** | Projects, `storageState`, `test.step`, `request` API, trace/screenshot on failure |
+
+---
+
+## Run locally
 
 ```bash
-git clone <your-private-repo-url>
-cd qa-automation-portfolio
 cp .env.example .env
 npm install
-npx playwright install
+npx playwright install chromium
 npm test
 ```
 
-Run subsets:
+Useful commands:
 
 ```bash
 npm run test:ui
 npm run test:api
-npm run test:headed
+npx playwright test --project=auth
+npx playwright test --grep @smoke
 npm run report
 ```
 
----
-
-## Design choices (interview talking points)
-
-1. **Page Object Model** — UI selectors and actions live in `src/pages/`; specs stay readable and scenario-focused (same structure used on a large externship codebase).
-2. **Fixtures over copy-paste `beforeEach`** — `authenticated` fixture shows scalable setup for logged-in flows.
-3. **Environment-driven config** — `BASE_URL` and credentials via `.env` (see `.env.example`); nothing secret in source control.
-4. **Cross-browser projects** — Chromium, Firefox, and WebKit configured in `playwright.config.ts` (CI runs Chromium for speed).
-5. **Failure artifacts** — traces on retry, screenshots and video on failure for debugging.
-6. **API without a second framework** — Playwright `request` keeps UI + API in one toolchain.
+`global-setup` logs in once and writes `.auth/shopper.json` so catalog/checkout tests skip repetitive login (auth specs still run without that state).
 
 ---
 
-## Externship context (sanitized)
+## Environment
 
-Hands-on work was performed in the [TripleTen QA externship Playwright framework](https://github.com/tripleten-externships/qa-percruit) — multi-role UI coverage, admin flows, and team CI practices.  
-This portfolio **does not** publish that application or its URLs; it demonstrates the **same engineering patterns** on public targets reviewers can run locally.
-
----
-
-## Granting access (private repo)
-
-For interviewers: add their GitHub username under **Settings → Collaborators** on this private repository, or share a short screen recording of `npm test` + HTML report if access is not possible.
+All hostnames and passwords live in `.env` only. Nothing proprietary is checked in.  
+Default `.env.example` points at a **public** demo storefront so interviewers can execute the suite after clone.
 
 ---
 
-## License
+## CI
 
-Portfolio sample code — free to review for hiring purposes.
+GitHub Actions workflow runs Chromium with `.env.example` copied to `.env`.
+
+---
+
+## Before making this repository public
+
+The **tracked source** is intended to be safe for a public GitHub repo: no employer product names, no internal URLs, and no API tokens in files.
+
+Do this once before you flip the repo to **Public**:
+
+1. **Confirm Git will not publish secrets**
+   - Run `git status` — you should **not** see `.env`, `.auth/`, `playwright-report/`, or `node_modules/` staged.
+   - Run `git ls-files | grep -E '\.env$|\.pem$|shopper\.json'` — it should print **nothing**.
+
+2. **Keep real credentials only locally**  
+   Copy `cp .env.example .env` on your machine; edit `.env` if you use a different demo host — never commit that file.
+
+3. **Optional scan** (from repo root):
+
+   ```bash
+   rg -i 'percruit|tripleten|ghp_|gho_|BEGIN RSA|AKIA|xoxb-' --glob '!node_modules'
+   ```
+
+4. **First push to a new public repo**  
+   If this folder ever had a different history, use a **fresh** GitHub repo for your public portfolio so old commits cannot leak. Your current tree has only the initial commit plus uncommitted work — after you commit the latest layout, you are in good shape.
+
+`package.json` sets `"private": true` for **npm** (avoids accidental `npm publish`). It does **not** control GitHub visibility.
+
+---
+
+## Note on scope
+
+This is a **portfolio subset**: patterns come from production-style team automation work on a live platform that cannot be published. Sample Portal replaces that product in code and docs so the framework skills are visible without confidential names or URLs.

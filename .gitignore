@@ -1,7 +1,15 @@
+.auth/
 node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Secrets and local overrides — never commit these for a public repo
 .env
+.env.*
+!.env.example
+
 .DS_Store
+*.pem
+*.key

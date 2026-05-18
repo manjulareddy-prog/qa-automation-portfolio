@@ -2,7 +2,7 @@
   "name": "qa-automation-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "QA Automation portfolio — TypeScript, Playwright UI & API tests",
+  "description": "QA Automation portfolio — Sample Portal UI and API tests (TypeScript, Playwright)",
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test tests/ui",

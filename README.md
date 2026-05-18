@@ -70,9 +70,25 @@ Default `.env.example` points at a **public** demo storefront so interviewers ca
 
 ---
 
-## CI
+## CI (GitHub Actions)
 
-GitHub Actions workflow runs Chromium with `.env.example` copied to `.env`.
+GitHub blocks pushing files under `.github/workflows/` unless your GitHub CLI token includes the **`workflow`** scope. This repo ships the same workflow as a **template** you can install after clone:
+
+```bash
+mkdir -p .github/workflows
+cp ci/templates/playwright.yml .github/workflows/playwright.yml
+git add .github/workflows/playwright.yml
+git commit -m "Add Playwright CI workflow"
+git push
+```
+
+Or refresh your token first, then add the workflow under `.github/workflows/` directly:
+
+```bash
+gh auth refresh -s workflow -h github.com
+```
+
+Then copy `ci/templates/playwright.yml` → `.github/workflows/playwright.yml` and push.
 
 ---
 
